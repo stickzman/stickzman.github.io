@@ -8,19 +8,23 @@ peer.on('open', function(id) {
 });
 
 function connect() {
-	conn = peer.connect(document.getElementById("input"));
+	initConn(peer.connect(document.getElementById("input")));
 }
 
-peer.on('connection', function(con) {
-	conn = con;
+peer.on('connection', function(c) {
+	initConn(c);
 });
 
-conn.on('open', function() {
-  // Receive messages
-  conn.on('data', function(data) {
-    console.log('Received', data);
-  });
+function initConn(c) {
+	conn = c;
+	conn.on('open', function() {
+	  // Receive messages
+	  conn.on('data', function(data) {
+		console.log('Received', data);
+	  });
 
-  // Send messages
-  conn.send('Hello!');
-});
+	  // Send messages
+	  conn.send('Hello!');
+	});
+}
+
