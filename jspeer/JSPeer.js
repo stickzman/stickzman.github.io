@@ -14,7 +14,7 @@ p.then(function(mediaStream) {
 
 p.catch(function(err) { console.log(err.name); });
 
-var peer = new Peer({key: 'lwjd5qra8257b9'});
+var peer = new Peer({key: 'pz37ds8uryrjm7vi'});
 
 peer.on("open", function(id) {
 	document.getElementById("id").innerHTML = 'My peer ID is: ' + id;
