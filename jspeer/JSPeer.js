@@ -1,7 +1,7 @@
 var conn;
 var call;
 
-var peer = new Peer({key: 'pz37ds8uryrjm7vi', "secure": false, "debug": 3});
+var peer = new Peer({key: 'pz37ds8uryrjm7vi', "secure": false, "debug": 2});
 
 peer.on('open', function(id) {
   document.getElementById("id").innerHTML = 'My peer ID is: ' + id;
@@ -27,4 +27,3 @@ function initConn(c) {
 	  conn.send('Hello!');
 	});
 }
-
