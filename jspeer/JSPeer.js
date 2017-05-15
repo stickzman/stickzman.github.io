@@ -4,7 +4,7 @@ var call;
 var peer = new Peer({key: 'pz37ds8uryrjm7vi', "secure": false, "debug": 3});
 
 peer.on('open', function(id) {
-  console.log('My peer ID is: ' + id);
+  document.getElementById("id").innerHTML = 'My peer ID is: ' + id;
 });
 
 function connect() {
