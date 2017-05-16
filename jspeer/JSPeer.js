@@ -52,24 +52,28 @@ function initConn(c) {
     console.log('Received', data);
     if (data.indexOf("id:") != -1) {
       loadNewVid(data.substring(3));
-    } else if (data.indexOf("seek:") != -1) {
-      player.seekTo(data.substring(5));
-    } else if (data == "buffering" && player.getPlayerState() == 1) {
-      respondingToPeer = true;
-      player.pauseVideo();
-    } else if (data == "play") {
-      if (player.getPlayerState() == 3) {
-        conn.send("buffering");
-      } else {
+    } else if (ready) {
+      if (data.indexOf("seek:") != -1) {
+        currTime = data.substring(5);
+        player.seekTo(currTime);
+      } else if (data == "buffering" && player.getPlayerState() == 1) {
         respondingToPeer = true;
+        player.pauseVideo();
+      } else if (data == "play") {
+        if (player.getPlayerState() == 3) {
+          conn.send("buffering");
+        } else {
+          respondingToPeer = true;
+        }
+        player.playVideo();
+      } else if (data == "pause") {
+        respondingToPeer = true;
+        player.pauseVideo();
+      } else if (data == "ready") {
+        console.log("READY");
+        player.playVideo();
+        seekInt = setInterval(checkSeek, 1000);
       }
-      player.playVideo();
-    } else if (data == "pause") {
-      respondingToPeer = true;
-      player.pauseVideo();
-    } else if (data == "ready" && ready) {
-      player.playVideo();
-      seekInt = setInterval(checkSeek, 1000);
     }
 
   });
@@ -95,6 +99,7 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
+  console.log(event.data);
   switch (event.data) {
     case YT.PlayerState.PLAYING:
       if (!respondingToPeer) {
@@ -111,6 +116,7 @@ function onPlayerStateChange(event) {
       }
       break;
     case YT.PlayerState.BUFFERING:
+      respondingToPeer = false;
       conn.send("buffering");
       break;
   }
@@ -121,6 +127,7 @@ function checkSeek() {
   if (player.getPlayerState() == 1) {
     if (currTime == -1) currTime = player.getCurrentTime(); else currTime++;
   }
+
   //console.log("player: " + player.getCurrentTime() + "currTime: " + currTime);
   //if (Math.floor(player.getCurrentTime()) != Math.floor(currTime)) {
   if (player.getCurrentTime() > currTime + .5 || player.getCurrentTime() < currTime - .5) {
