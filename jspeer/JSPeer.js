@@ -1,4 +1,4 @@
-var conn, peer, player, vID, blockPlayer, pID, destID;
+var conn, peer, player, vID, blockPlayer, pID, destID, textBox;
 var respondingToPeer, ready = false;
 var first = true;
 var currTime = -1;
@@ -7,58 +7,63 @@ window.onload = setup;
 
 function setup() {
   blockPlayer = document.getElementById("blockPlayer");
-  document.getElementById("input").addEventListener('keydown', function (event) {
+  textBox = document.getElementById("input");
+  textBox.addEventListener('keydown', function (event) {
     if (event.keyCode == 13) {
       document.getElementById("submit").click();
     }
   });
+}
 
-  pID = prompt("Enter a username:").trim();
+function createID() {
+  pID = textBox.value.trim();
   peer = new Peer(pID, {key: 'pz37ds8uryrjm7vi', "debug": 1});
 
   peer.on('error', function (err) {
     if (err.type == 'invalid-id') {
       alert("Invalid ID chosen");
-      setup();
+      textBox.value = "";
     } else if (err.type == 'unavailable-id') {
       alert("Username already taken");
-      setup();
+      textBox.value = "";
     } else if (err.type == 'peer-unavailable') {
       alert("The peer you're trying to connect to does not exist");
-
     } else {
       alert("PeerJS Error: " + err.type);
     }
-
   });
 
   peer.on('open', function(id) {
     pID = id;
     document.getElementById("id").innerHTML = 'My peer ID is: ' + id;
+    textBox.value = "";
+    textBox.placeholder="Enter Peer ID";
+    var btn = document.getElementById("submit");
+    btn.value = "Connect";
+    btn.onclick = connect;
   });
 
   peer.on('connection', function(c) {initConn(c);});
 }
 
 function start() {
-  document.getElementById("input").value = "";
-  document.getElementById("input").placeholder = "Enter a YouTube URL";
+  textBox.value = "";
+  textBox.placeholder = "Enter a YouTube URL";
 	var btn = document.getElementById("submit");
   btn.value = "Go";
   btn.onclick = function () {
-    loadNewVid(document.getElementById("input").value);
+    loadNewVid(textBox.value);
     conn.send("id:"+vID);
   };
 }
 
 function connect() {
-	initConn(peer.connect(document.getElementById("input").value));
+	initConn(peer.connect(textBox.value));
 }
 
 function reset() {
-  var text = document.getElementById("input");
-  text.value = "";
-  text.placeholder="Enter Peer ID";
+  textBox.value = "";
+  textBox.placeholder="Enter Peer ID";
   var btn = document.getElementById("submit");
   btn.value="Connect";
   btn.onclick= connect;
