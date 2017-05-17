@@ -1,5 +1,6 @@
-var conn, peer, player, vID, seekFunc;
+var conn, peer, player, vID;
 var respondingToPeer, ready = false;
+var first = true;
 var currTime = -1;
 
 window.onload=setup();
@@ -9,17 +10,18 @@ function setup() {
   peer = new Peer(pID, {key: 'pz37ds8uryrjm7vi', "debug": 1});
 
   peer.on('error', function (err) {
-    if (err.type == 'unavailable-id' || err.type == 'invalid-id') {
-      alert("Invalid ID chosen, generating new ID");
-      peer = new Peer({key: 'pz37ds8uryrjm7vi', "debug": 2});
-      pID = peer.id;
-
-      peer.on('open', function(id) {
-        document.getElementById("id").innerHTML = 'My peer ID is: ' + id;
-      });
-
-      peer.on('connection', function(c) {initConn(c);});
+    if (err.type == 'invalid-id') {
+      alert("Invalid ID chosen");
+      setup();
+    } else if (err.type == 'unavailable-id') {
+      alert("Username already taken");
+      setup();
+    } else if (err.type == 'peer-unavailable') {
+      alert("The peer you're trying to connect to does not exist");
+    } else {
+      alert("PeerJS Error: " + err.type);
     }
+
   });
 
   peer.on('open', function(id) {
@@ -87,11 +89,16 @@ function initConn(c) {
 
 function loadNewVid(url) {
   vID = getVidID(url);
-  var tag = document.createElement('script');
+  if (first) {
+    first = false;
+    var tag = document.createElement('script');
 
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  } else {
+    player.loadVideoById({"videoId": vID});
+  }
 }
 
 function onYouTubeIframeAPIReady() {
