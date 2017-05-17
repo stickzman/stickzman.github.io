@@ -34,6 +34,7 @@ function setup() {
 
 function start() {
   document.getElementById("input").value = "";
+  document.getElementById("input").placeholder = "Enter a YouTube URL";
 	var btn = document.getElementById("submit");
   btn.value = "Go";
   btn.onclick = function () {
