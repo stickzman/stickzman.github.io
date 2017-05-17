@@ -1,4 +1,4 @@
-var conn, peer, player, vID;
+var conn, peer, player, vID, blockPlayer;
 var respondingToPeer, ready = false;
 var first = true;
 var currTime = -1;
@@ -69,9 +69,11 @@ function initConn(c) {
         player.seekTo(data.substring(5));
         currTime = data.substring(5);
     } else if (data == "buffering" && player.getPlayerState() == 1) {
+        blockPlayer.style.zIndex = "-1";
         respondingToPeer = true;
         player.pauseVideo();
     } else if (data == "play") {
+        blockPlayer.style.zIndex = "0";
         if (player.getPlayerState() == 3) {
           conn.send("buffering");
         } else {
@@ -82,6 +84,7 @@ function initConn(c) {
         respondingToPeer = true;
         player.pauseVideo();
     } else if (data == "ready" && ready) {
+        blockPlayer.style.zIndex = "0";
         player.playVideo();
     }
   });
@@ -112,6 +115,10 @@ function onYouTubeIframeAPIReady() {
     },
     enablejsapi: true
   });
+  var p = document.getElementById("player");
+  blockPlayer = document.getElementById("blockPlayer");
+  blockPlayer.style.width = p.width + "px";
+  blockPlayer.style.height = p.height + "px";
 }
 
 function onPlayerReady(event) {
