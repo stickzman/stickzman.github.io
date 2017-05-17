@@ -64,10 +64,8 @@ function initConn(c) {
     if (data.indexOf("id:") != -1) {
         loadNewVid(data.substring(3));
     } else if (data.indexOf("seek:") != -1) {
-        clearInterval(seekFunc);
         player.seekTo(data.substring(5));
         currTime = data.substring(5);
-        seekFunc = setInterval(checkSeek, 1000);
     } else if (data == "buffering" && player.getPlayerState() == 1) {
         respondingToPeer = true;
         player.pauseVideo();
@@ -112,14 +110,12 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
   ready = true;
   conn.send("ready");
+  setInterval(checkSeek, 1000);
 }
 
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.PLAYING:
-      if (currTime == -1) {
-        seekFunc = setInterval(checkSeek, 1000);
-      }
       if (!respondingToPeer) {
         conn.send("play");
       } else {
@@ -147,9 +143,10 @@ function checkSeek() {
     } else {
       currTime++;
     }
-    console.log(currTime);
   }
 
+  //console.log("p: " + player.getCurrentTime() + "\nct: " + currTime);
+  console.log(Math.abs(currTime - player.getCurrentTime()));
   if (player.getCurrentTime() > currTime + 1 || player.getCurrentTime() < currTime - 1) {
     currTime = player.getCurrentTime();
     conn.send("seek:" + currTime);
