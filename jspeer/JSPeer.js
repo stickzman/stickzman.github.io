@@ -1,11 +1,18 @@
-var conn, peer, player, vID, blockPlayer;
+var conn, peer, player, vID, blockPlayer, pID, destID;
 var respondingToPeer, ready = false;
 var first = true;
 var currTime = -1;
 
-window.onload=setup();
+window.onload = setup;
 
 function setup() {
+  blockPlayer = document.getElementById("blockPlayer");
+  document.getElementById("input").addEventListener('keydown', function (event) {
+    if (event.keyCode == 13) {
+      document.getElementById("submit").click();
+    }
+  });
+
   pID = prompt("Enter a username:").trim();
   peer = new Peer(pID, {key: 'pz37ds8uryrjm7vi', "debug": 1});
 
@@ -18,6 +25,7 @@ function setup() {
       setup();
     } else if (err.type == 'peer-unavailable') {
       alert("The peer you're trying to connect to does not exist");
+
     } else {
       alert("PeerJS Error: " + err.type);
     }
@@ -40,17 +48,31 @@ function start() {
   btn.onclick = function () {
     loadNewVid(document.getElementById("input").value);
     conn.send("id:"+vID);
-    host = true;
   };
 }
 
 function connect() {
-	var destID = document.getElementById("input").value;
-	initConn(peer.connect(destID));
+	initConn(peer.connect(document.getElementById("input").value));
+}
+
+function reset() {
+  var text = document.getElementById("input");
+  text.value = "";
+  text.placeholder="Enter Peer ID";
+  var btn = document.getElementById("submit");
+  btn.value="Connect";
+  btn.onclick= connect;
+  var div = document.getElementById("blockPlayer");
+  div.removeChild(document.getElementById("player"));
+  var divPlayer =  document.createElement("div");
+  divPlayer.id = "player";
+  div.appendChild(divPlayer);
+  first = true;
 }
 
 function initConn(c) {
 	conn = c;
+  destID = conn.peer;
 
   conn.on('error', function(err) {
     console.log(err);
@@ -61,6 +83,14 @@ function initConn(c) {
     start();
   });
 
+  conn.on('close', function() {
+    if (confirm("You have lost connection to: " + destID + "\n\nWould you like to attempt a reconnect?")) {
+      initConn(peer.connect(destID));
+    } else {
+      location.reload();
+    }
+  })
+
   //Handle Received Data
   conn.on('data', function(data) {
     console.log('Received', data);
@@ -70,7 +100,6 @@ function initConn(c) {
         player.seekTo(data.substring(5));
         currTime = data.substring(5);
     } else if (data == "buffering" && player.getPlayerState() == 1) {
-        blockPlayer.style.zIndex = "-1";
         respondingToPeer = true;
         player.pauseVideo();
     } else if (data == "play") {
@@ -92,6 +121,7 @@ function initConn(c) {
 }
 
 function loadNewVid(url) {
+  blockPlayer.style.zIndex = "-1";
   vID = getVidID(url);
   if (first) {
     first = false;
@@ -117,7 +147,6 @@ function onYouTubeIframeAPIReady() {
     enablejsapi: true
   });
   var p = document.getElementById("player");
-  blockPlayer = document.getElementById("blockPlayer");
   blockPlayer.style.width = p.width + "px";
   blockPlayer.style.height = p.height + "px";
 }
