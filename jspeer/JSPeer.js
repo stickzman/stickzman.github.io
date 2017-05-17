@@ -145,7 +145,7 @@ function checkSeek() {
     }
   }
 
-  if ((Math.abs(currTime - player.getCurrentTime()) > 1) {
+  if ((Math.abs(currTime - player.getCurrentTime()) > 1)) {
     currTime = player.getCurrentTime();
     conn.send("seek:" + currTime);
   }
