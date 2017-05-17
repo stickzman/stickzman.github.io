@@ -6,7 +6,7 @@ window.onload=setup();
 
 function setup() {
   pID = prompt("Enter a username:").trim();
-  peer = new Peer(pID, {key: 'pz37ds8uryrjm7vi', "debug": 2});
+  peer = new Peer(pID, {key: 'pz37ds8uryrjm7vi', "debug": 1});
 
   peer.on('error', function (err) {
     if (err.type == 'unavailable-id' || err.type == 'invalid-id') {
@@ -145,9 +145,7 @@ function checkSeek() {
     }
   }
 
-  //console.log("p: " + player.getCurrentTime() + "\nct: " + currTime);
-  console.log(Math.abs(currTime - player.getCurrentTime()));
-  if (player.getCurrentTime() > currTime + 1 || player.getCurrentTime() < currTime - 1) {
+  if ((Math.abs(currTime - player.getCurrentTime()) > 1) {
     currTime = player.getCurrentTime();
     conn.send("seek:" + currTime);
   }
