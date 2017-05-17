@@ -16,7 +16,7 @@ function setup() {
 }
 
 function createID() {
-  pID = textBox.value.trim();
+  pID = textBox.value.toLowerCase().trim();
   peer = new Peer(pID, {key: 'pz37ds8uryrjm7vi', "debug": 1});
 
   peer.on('error', function (err) {
@@ -58,7 +58,8 @@ function start() {
 }
 
 function connect() {
-	initConn(peer.connect(textBox.value));
+  destID = textBox.value.toLowerCase().trim();
+	initConn(peer.connect(destID));
 }
 
 function reset() {
