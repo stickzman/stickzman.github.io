@@ -28,6 +28,7 @@ function createID() {
       textBox.value = "";
     } else if (err.type == 'peer-unavailable') {
       alert("The peer you're trying to connect to does not exist");
+      reset();
     } else {
       alert("PeerJS Error: " + err.type);
     }
@@ -35,12 +36,7 @@ function createID() {
 
   peer.on('open', function(id) {
     pID = id;
-    document.getElementById("id").innerHTML = 'My peer ID is: ' + id;
-    textBox.value = "";
-    textBox.placeholder="Enter Peer ID";
-    var btn = document.getElementById("submit");
-    btn.value = "Connect";
-    btn.onclick = connect;
+    reset();
   });
 
   peer.on('connection', function(c) {initConn(c);});
@@ -63,17 +59,13 @@ function connect() {
 }
 
 function reset() {
+  document.getElementById("id").innerHTML = "My Peer ID is: " + pID;
   textBox.value = "";
-  textBox.placeholder="Enter Peer ID";
+  textBox.placeholder="Enter their Peer ID";
   var btn = document.getElementById("submit");
   btn.value="Connect";
   btn.onclick= connect;
-  var div = document.getElementById("blockPlayer");
-  div.removeChild(document.getElementById("player"));
-  var divPlayer =  document.createElement("div");
-  divPlayer.id = "player";
-  div.appendChild(divPlayer);
-  first = true;
+  blockPlayer.style.zIndex = "-1";
 }
 
 function initConn(c) {
@@ -90,10 +82,12 @@ function initConn(c) {
   });
 
   conn.on('close', function() {
+    player.pauseVideo();
+    blockPlayer.style.zIndex = "-1";
     if (confirm("You have lost connection to: " + destID + "\n\nWould you like to attempt a reconnect?")) {
       initConn(peer.connect(destID));
     } else {
-      location.reload();
+      reset();
     }
   })
 
@@ -127,6 +121,7 @@ function initConn(c) {
 }
 
 function loadNewVid(url) {
+  textBox.value = "";
   blockPlayer.style.zIndex = "-1";
   vID = getVidID(url);
   if (first) {
