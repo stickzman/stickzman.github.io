@@ -1,5 +1,5 @@
-# Dan Ahl's Project Page
-#### Here you can try outsome of my Github  projects
+### Dan Ahl's Project Page
+#### Here you can try out some of my Github projects
 [NES TS](https://stickzman.github.io/nes_ts/)  
 An NES emulator I wrote in TypeScript, playable in browser
 
