@@ -3,5 +3,8 @@
 [NES TS](https://stickzman.github.io/nes_ts/)  
 An NES emulator I wrote in TypeScript, playable in browser
 
+[Trivia Night](https://stickzman.github.io/trivianight) _**in development**_  
+A Jackbox-Games-esque trivia game. Host a game on your computer, then connect with your mobile phone's web browser!
+
 [GFM Converter](https://stickzman.github.io/gfm/)  
 A converter that takes GitHub Flavored Markdown and converts it to HTML, with stylings that mimic the look of Markdown rendered on GitHub itself
