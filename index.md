@@ -9,5 +9,5 @@ A Jackbox-Games-esque trivia game. Host a game on your computer, then connect wi
 [GFM Converter](https://stickzman.github.io/gfm/)  
 A converter that takes GitHub Flavored Markdown and converts it to HTML, with stylings that mimic the look of Markdown rendered on GitHub itself
 
-[Citation Alphabetizer](https://stickzman.github.io/CitationAlphabetizer/)
+[Citation Alphabetizer](https://stickzman.github.io/CitationAlphabetizer/)  
 A simple script that sorts lines in alphabetical order, treating indented lines as an extension of the last line, as they are in a citation list.
