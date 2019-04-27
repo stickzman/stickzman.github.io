@@ -3,7 +3,7 @@
 [NES TS](https://stickzman.github.io/nes_ts/)  
 An NES emulator I wrote in TypeScript, playable in browser
 
-[Trivia Night](https://stickzman.github.io/trivianight) _**in development**_  
+[Trivia Night](https://github.com/stickzman/TriviaNight) _**in development**_  
 A Jackbox-Games-esque trivia game. Host a game on your computer, then connect with your mobile phone's web browser!
 
 [GFM Converter](https://stickzman.github.io/gfm/)  
