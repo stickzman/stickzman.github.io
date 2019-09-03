@@ -12,5 +12,5 @@ A converter that takes GitHub Flavored Markdown and converts it to HTML, with st
 [Citation Alphabetizer](https://stickzman.github.io/CitationAlphabetizer/)  
 A simple script that sorts lines in alphabetical order, treating indented lines as an extension of the last line, as they are in a citation list.
 
-[Boids Flocking Simulator](https://github.com/stickzman/boids/index.html)
+[Boids Flocking Simulator](https://stickzman.github.io/boids/index.html)
 A small program that implements Reynold's "Boids" flocking simulation in p5.js. A 150 bird/fish-like entities start in random positions/directions and begin to flock.
