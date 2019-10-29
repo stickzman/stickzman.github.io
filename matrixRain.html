@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Matrix Rain</title>
+        <style media="screen">
+            body {
+                margin: 0px;
+                overflow: hidden;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+        <script type="text/javascript">
+            const symbolSize = 20
+            const streams = []
+            let symbols = []
+            let fontColor, highlightColor
+
+            class Symbol {
+                static highlightLength = 30
+                dead = false
+
+                constructor(x, y, lifetime, highlight) {
+                    this.x = x
+                    this.y = y
+                    this.lifetime = lifetime
+                    this.startTime = frameCount
+                    this.fontColor = color(0, 255, 70)
+                    this.fontStroke = color(0, 0)
+                    this.highlightColor = color(255, 255, 255)
+                    this.color = (highlight) ? this.highlightColor : this.fontColor
+                    this.strokeColor = (highlight) ? this.highlightColor : this.fontStroke
+                    this.swapSymbolInterval = floor(random(15, 50))
+                    this.setRandomSymbol()
+                    this.highlight = highlight
+                }
+
+                setRandomSymbol() {
+                    if (random() < 0.2) {
+                        this.value = String.fromCharCode(
+                            0x0020 + round(random(1, 15))
+                        )
+                    } else {
+                        this.value = String.fromCharCode(
+                            0x30A0 + round(random(0, 96))
+                        )
+                    }
+                }
+
+                render() {
+                    if (this.dead) return
+                    var deltaTime = frameCount - this.startTime
+                    if (deltaTime > this.lifetime) {
+                        let a = alpha(this.color) - 10
+                        if (a <= 0) {
+                            this.dead = true
+                            return
+                        }
+                        this.color.setAlpha(a)
+                    } else if (this.highlight && deltaTime < Symbol.highlightLength) {
+                        this.color = lerpColor(this.highlightColor, this.fontColor, deltaTime/Symbol.highlightLength)
+                        this.strokeColor = lerpColor(this.highlightColor, this.fontStroke, deltaTime/Symbol.highlightLength)
+                    }
+                    if (frameCount % this.swapSymbolInterval === 0) {
+                        this.setRandomSymbol()
+                    }
+
+                    push()
+                    fill(this.color)
+                    stroke(this.strokeColor)
+                    text(this.value, this.x, this.y)
+                    pop()
+                }
+            }
+
+            class Stream {
+                constructor(x, y, spawnInterval, symbolLifetime, highlight) {
+                    this.x = x
+                    this.y = y
+                    this.spawnInterval = spawnInterval
+                    this.symbolLifetime = symbolLifetime
+                    this.highlight = highlight
+                }
+
+                spawnTick() {
+                    if (frameCount % this.spawnInterval > 0) return
+                    this.y += symbolSize
+                    this.y = (this.y > height) ? 0 : this.y
+                    symbols.push(new Symbol(
+                        this.x,
+                        this.y,
+                        this.symbolLifetime,
+                        this.highlight
+                    ))
+                }
+            }
+
+            function setup() {
+                createCanvas(window.innerWidth, window.innerHeight)
+                textFont('Consolas')
+                textSize(symbolSize)
+                for (let x = 0; x < width; x += symbolSize) {
+                    streams.push(new Stream(
+                        x,
+                        random(-500, 0),        //y position
+                        floor(random(3, 7)),    //spawnInterval
+                        floor(random(18, 80)),  //symbolLifetime
+                        random() < 0.3          //highlight
+                    ))
+                }
+            }
+
+            function draw() {
+                background(0)
+                streams.forEach((s) => s.spawnTick())
+                const liveSymbols = []
+                symbols.forEach((s, i) => {
+                    if (s.dead) return
+                    s.render()
+                    liveSymbols.push(s)
+                })
+                symbols = liveSymbols
+            }
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
