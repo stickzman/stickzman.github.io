@@ -16,4 +16,7 @@ A simple script that sorts lines in alphabetical order, treating indented lines 
 A small program that implements Reynold's "Boids" flocking simulation in p5.js. 150 bird/fish-like entities start in random positions/directions and begin to flock.
 
 [Matrix Rain](https://stickzman.github.io/matrixRain.html)  
-A recreation of the raining code effect from _The Matrix_
+A recreation of the raining code effect from _The Matrix_.
+
+[Puckman](https://stickzman.github.io/Puckman/)  
+A minimalist implementation of an arcade classic.
