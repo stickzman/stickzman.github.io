@@ -3,7 +3,7 @@
 [NES TS](https://stickzman.github.io/nes_ts/)  
 An NES emulator I wrote in TypeScript, playable in browser.
 
-[Itch.io Page](https://stickzman.itch.io/)
+[Itch.io Page](https://stickzman.itch.io/)  
 My personal itch.io project page. Any games I may make end up here.
 
 [Puckman](https://stickzman.github.io/Puckman/)  
@@ -15,7 +15,7 @@ A small program that implements Reynold's "Boids" flocking simulation in p5.js. 
 [Matrix Rain](https://stickzman.github.io/matrixRain.html)  
 A recreation of the raining code effect from _The Matrix_.
 
-[Trivia Night](https://github.com/stickzman/TriviaNight)
+[Trivia Night](https://github.com/stickzman/TriviaNight)  
 A Jackbox-Games-esque trivia game. Host a game on your computer, then connect with your mobile phone's web browser!
 
 [GFM Converter](https://stickzman.github.io/gfm/)  
