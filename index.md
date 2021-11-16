@@ -1,23 +1,24 @@
-### Dan Ahl's Project Page
+# Dan Ahl's Project Page
 #### Here you can try out some of my Github projects
+
+## Games
 [NES TS](https://stickzman.github.io/nes_ts/)  
 An NES emulator I wrote in TypeScript, playable in browser.
-
-[Itch.io Page](https://stickzman.itch.io/)  
-My personal itch.io project page. Any games I may make end up here.
 
 [Puckman](https://stickzman.github.io/Puckman/)  
 A minimalist implementation of an arcade classic.
 
+[Itch.io Page](https://stickzman.itch.io/)  
+My personal itch.io project page. Any games I may make end up here.
+
+## Creative Coding
 [Boids Flocking Simulator](https://stickzman.github.io/boids/index.html)  
 A small program that implements Reynold's "Boids" flocking simulation in p5.js. 150 bird/fish-like entities start in random positions/directions and begin to flock.
 
 [Matrix Rain](https://stickzman.github.io/matrixRain.html)  
 A recreation of the raining code effect from _The Matrix_.
 
-[Trivia Night](https://github.com/stickzman/TriviaNight)  
-A Jackbox-Games-esque trivia game. Host a game on your computer, then connect with your mobile phone's web browser!
-
+## Simple Tools
 [GFM Converter](https://stickzman.github.io/gfm/)  
 A converter that takes GitHub Flavored Markdown and converts it to HTML, with stylings that mimic the look of Markdown rendered on GitHub itself.
 
