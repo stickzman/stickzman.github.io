@@ -17,10 +17,3 @@ A small program that implements Reynold's "Boids" flocking simulation in p5.js. 
 
 [Matrix Rain](https://stickzman.github.io/matrixRain.html)  
 A recreation of the raining code effect from _The Matrix_.
-
-## Simple Tools
-[GFM Converter](https://stickzman.github.io/gfm/)  
-A converter that takes GitHub Flavored Markdown and converts it to HTML, with stylings that mimic the look of Markdown rendered on GitHub itself.
-
-[Citation Alphabetizer](https://stickzman.github.io/CitationAlphabetizer/)  
-A simple script that sorts lines in alphabetical order, treating indented lines as an extension of the last line, as they are in a citation list.
